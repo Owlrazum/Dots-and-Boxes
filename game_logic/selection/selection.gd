@@ -2,13 +2,15 @@ class_name Selection extends RayCast3D
 
 var _camera: Camera3D
 var _hovered: Selectable
-
+var can_select
 
 func _ready():
 	_camera = get_node("..") as Camera3D
 
 
 func _unhandled_input(event):
+	if not can_select:
+		return
 	if event is InputEventMouseMotion:
 		target_position = _camera.project_local_ray_normal(event.position) * 100
 	elif event is InputEventMouseButton:
@@ -20,6 +22,8 @@ func _unhandled_input(event):
 
 
 func _physics_process(_delta):
+	if not can_select:
+		return
 	if not is_colliding():
 		if _hovered:
 			_hovered.hover_ended.emit()

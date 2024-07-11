@@ -1,5 +1,7 @@
 extends Node
 
+@export var selection: Selection
+
 @export var dims: Vector2i = Vector2i(4, 4)
 @export var gap: float = 100
 @export var vertex_size: float = 32
@@ -11,6 +13,9 @@ extends Node
 @export var vertices_parent: Node
 @export var edges_parent: Node
 @export var faces_parent: Node
+
+var player_turn # 0 or 1
+var made_face
 
 var selected_vertex: Vertex
 var faces = [] # faces, each with number of edges 0..4
@@ -25,6 +30,14 @@ enum {
 	D, #down
 	L  #left
 }
+
+@rpc("reliable", "any_peer", "call_local")
+func make_turn(v1pos, v2pos, player):
+	make_edge(v1pos, v2pos, player)
+	if not made_face and PlayerList.player_amount > 1: 
+		player_turn = 0 if player_turn == 1 else 1
+		selection.can_select = PlayerList.local_player_index == player_turn
+	made_face = false
 
 func _ready():
 	var delta = (vertex_size + gap) * Vector3(1, 0, 1)
@@ -55,11 +68,16 @@ func _ready():
 			edges.append([0, 0, 0, 0])
 			if c != dims.y - 1 or r != dims.x: 
 				faces.append(0)
+	
+	player_turn = 0
+	made_face = false
+	selection.can_select = PlayerList.local_player_index == player_turn
 
 func on_vertex_pressed(vertex):
 	if selected_vertex:
 		if is_adjacent(vertex, selected_vertex):
-			make_edge(selected_vertex, vertex)
+			make_turn.rpc(selected_vertex.pos, vertex.pos, PlayerList.local_player_index)
+		
 		selected_vertex.default()
 		default_adjacent(selected_vertex)
 		selected_vertex = null
@@ -124,7 +142,9 @@ func edgetofaces(v, d):
 				face_index.y = xytox(v.pos.x - 1, v.pos.y, dims.x - 1)
 	return face_index
 
-func make_edge(v1, v2):
+func make_edge(v1pos, v2pos, player):
+	var v1 = vertices_parent.get_child(xytox(v1pos.x, v1pos.y, dims.x))
+	var v2 = vertices_parent.get_child(xytox(v2pos.x, v2pos.y, dims.x))
 	var d1 = diftodir(v2.pos - v1.pos)
 	if edges[xytox(v1.pos.x, v1.pos.y, dims.x)][d1]:
 		return
@@ -138,12 +158,12 @@ func make_edge(v1, v2):
 		faces[face_index.x] += 1
 		#print("face %s incremented. its value %s" % [face_index.x, faces[face_index.x]])
 		if faces[face_index.x] == 4:
-			make_face(face_index.x)
+			make_face(face_index.x, player)
 	if face_index.y >= 0: 
 		faces[face_index.y] += 1
 		#print("face %s incremented. its value %s" % [face_index.y, faces[face_index.y]])
 		if faces[face_index.y] == 4:
-			make_face(face_index.y)
+			make_face(face_index.y, player)
 	
 	var p = v1.position - v2.position
 	var edge = edge_scene.instantiate() as Edge
@@ -152,9 +172,12 @@ func make_edge(v1, v2):
 	edge.look_at_from_position(v1.position, v2.position)
 	edge.set_scale(Vector3(1, 1, (v2.position - v1.position).length()))
 
-func make_face(face_index):
+func make_face(face_index, player):
 	var face = face_scene.instantiate() as Face
 	faces_parent.add_child(face)
 	var fi = xtoxy(face_index, dims.x - 1)
-	face.position = vertices_parent.get_child(xytox(fi.x, fi.y, dims.x)).position
+	face.position = vertices_parent.get_child(xytox(fi.x, fi.y, dims.x)).position + Vector3.UP * 0.5
 	face.material_override = face.material_override.duplicate()
+	if player == 0: face.p1()
+	else: face.p2()
+	made_face = true

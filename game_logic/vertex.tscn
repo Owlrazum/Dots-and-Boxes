@@ -6,6 +6,7 @@
 
 [sub_resource type="SphereMesh" id="SphereMesh_2asxk"]
 height = 0.1
+rings = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6qsmv"]
 

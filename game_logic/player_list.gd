@@ -1,13 +1,13 @@
 extends Node
 
-var amount = 0
+var player_amount = 0
 
 ## the public "constant" player information:
 var player_names = []
 var descriptions = []
 var ids = []
 
-var local_order
+var local_player_index
 
 func _ready():
 	player_names.resize(6)
@@ -23,20 +23,20 @@ func add_player_request(is_local_server = false):
 		id = 1
 	
 	# send to new client existing info
-	for order in range(0, amount):
+	for order in range(0, player_amount):
 		add_player_response.rpc_id(id, order, ids[order])
-	set_order.rpc_id(id, amount)
+	set_order.rpc_id(id, player_amount)
 	
 	# notify all clients of added player
-	add_player_response.rpc(amount, id)
+	add_player_response.rpc(player_amount, id)
 
 
 @rpc("reliable", "call_local")
 func add_player_response(order, network_id):
 	ids[order] = network_id
-	amount += 1
+	player_amount += 1
 
 
 @rpc("reliable", "call_local")
 func set_order(order):
-	local_order = order
+	local_player_index = order
