@@ -4,16 +4,20 @@ extends Node
 @export var gap: float = 100
 @export var vertex_size: float = 32
 
-@export var cell_scene = preload("res://game_logic/cell.tscn")
 @export var vertex_scene = preload("res://game_logic/vertex.tscn")
 @export var edge_scene = preload("res://game_logic/edge.tscn")
+@export var face_scene = preload("res://game_logic/face.tscn")
 
 @export var vertices_parent: Node
 @export var edges_parent: Node
+@export var faces_parent: Node
 
 var selected_vertex: Vertex
 var faces = [] # faces, each with number of edges 0..4
 var edges = [] # per vertex the array of 4 booleans denoting edge
+
+var p1_faces_amount = 0
+var p2_faces_amount = 0
 
 enum {
 	U, #up
@@ -33,13 +37,11 @@ func _ready():
 	var start_pos = Vector3(t.x * delta.x, 0, t.y * delta.z) + start_delta
 	var pos = start_pos;
 	
-	var dots = []
 	for r in dims.x:
 		for c in dims.y:
 			var vertex = vertex_scene.instantiate() as Vertex
 			vertices_parent.add_child(vertex)
 			vertex.position = pos
-			dots.append(vertex)
 			vertex.pos = Vector2i(c, r)
 			vertex.vertex_pressed.connect(on_vertex_pressed)
 			vertex.material_override = vertex.material_override.duplicate()
@@ -87,8 +89,8 @@ func default_adjacent(vertex):
 func xytox(x, y, d):
 	return y * d + x
 
-func xtoxy(x):
-	return Vector2i(x / dims.x, x % dims.x)
+func xtoxy(x, d):
+	return Vector2i(x % d, x / d)
 
 func diftodir(dif):
 	match dif:
@@ -151,5 +153,8 @@ func make_edge(v1, v2):
 	edge.set_scale(Vector3(1, 1, (v2.position - v1.position).length()))
 
 func make_face(face_index):
-	print("make_face %s" % face_index)
-	pass
+	var face = face_scene.instantiate() as Face
+	faces_parent.add_child(face)
+	var fi = xtoxy(face_index, dims.x - 1)
+	face.position = vertices_parent.get_child(xytox(fi.x, fi.y, dims.x)).position
+	face.material_override = face.material_override.duplicate()

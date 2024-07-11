@@ -3,12 +3,13 @@
 [ext_resource type="Script" path="res://game_logic/manager.gd" id="1_tgwwa"]
 [ext_resource type="Script" path="res://game_logic/selection/selection.gd" id="2_u4txn"]
 
-[node name="Game" type="Node" node_paths=PackedStringArray("vertices_parent", "edges_parent")]
+[node name="Game" type="Node" node_paths=PackedStringArray("vertices_parent", "edges_parent", "faces_parent")]
 script = ExtResource("1_tgwwa")
 gap = 2.0
 vertex_size = 1.0
 vertices_parent = NodePath("Vertices")
 edges_parent = NodePath("Edges")
+faces_parent = NodePath("Faces")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -28,6 +29,8 @@ color = Color(1, 0.184314, 1, 1)
 [node name="Vertices" type="Node" parent="."]
 
 [node name="Edges" type="Node" parent="."]
+
+[node name="Faces" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)

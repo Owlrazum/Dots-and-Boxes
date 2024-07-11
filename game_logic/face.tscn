@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvvlrxgwht2b1"]
+
+[ext_resource type="Material" uid="uid://bk3umf6d81sg3" path="res://game_logic/vertex.tres" id="1_6er4u"]
+[ext_resource type="Script" path="res://game_logic/face.gd" id="2_0wuit"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_70bdd"]
+size = Vector2(3, 3)
+center_offset = Vector3(1.5, 0, 1.5)
+orientation = 1
+
+[node name="Game" type="MeshInstance3D"]
+material_override = ExtResource("1_6er4u")
+mesh = SubResource("QuadMesh_70bdd")
+script = ExtResource("2_0wuit")
