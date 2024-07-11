@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://n4dmcqxutlit"]
+[gd_scene load_steps=6 format=3 uid="uid://n4dmcqxutlit"]
 
 [ext_resource type="Script" path="res://game_logic/connect.gd" id="1_cmktx"]
 [ext_resource type="StyleBox" uid="uid://dag5bvc65gyu6" path="res://game_logic/blobor_all.tres" id="2_uiweq"]
 [ext_resource type="StyleBox" uid="uid://blwwb76djkno4" path="res://game_logic/flat_white_bordered.tres" id="4_03ve5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1d5w5"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_gok1o"]
 thickness = 5
@@ -68,7 +70,7 @@ theme_override_styles/normal = ExtResource("4_03ve5")
 text = "Client
 "
 
-[node name="TextEdit" type="LineEdit" parent="Control/HBox/Client"]
+[node name="LineEdit" type="LineEdit" parent="Control/HBox/Client"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -87,6 +89,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
 theme_override_styles/normal = ExtResource("4_03ve5")
 text = "Start"
+
+[node name="Label" type="Label" parent="Control/HBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_1d5w5")
 
 [node name="VSeparator" type="VSeparator" parent="Control"]
 layout_mode = 1

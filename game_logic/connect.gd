@@ -10,6 +10,8 @@ var hosted: bool
 @onready var client = $Control/HBox/Client
 @onready var start = $Control/HBox/Start
 
+@onready var host_ip = $Control/HBox/Label as Label
+@onready var client_connect_ip = $Control/HBox/Client/LineEdit as LineEdit
 
 func _init():
 	peer.supported_protocols = [PROTO_NAME]
@@ -19,6 +21,8 @@ func _ready():
 	multiplayer.connected_to_server.connect(on_connected_to_server)
 	multiplayer.server_disconnected.connect(close_network)
 	multiplayer.connection_failed.connect(close_network)
+	
+	client_connect_ip.text = '192.168.'
 
 
 func on_connected_to_server():
@@ -44,11 +48,22 @@ func on_Host_pressed():
 	host.visible = false
 	client.visible = false
 	start.visible = true
-
+	
+	var ips = IP.get_local_addresses()
+	host_ip.text = "the host ip is "
+	for s in ips:
+		if s.contains("192"):
+			host_ip.text += s
 
 func on_Client_pressed():
 	multiplayer.multiplayer_peer = null
-	var error = peer.create_client("ws://localhost:" + str(DEF_PORT))
+	var error
+	if client_connect_ip.text.length() > 4:
+		var url = "ws://%s:%s" % [client_connect_ip.text, str(DEF_PORT)]
+		print(url)
+		error = peer.create_client(url)
+	else:
+		error = peer.create_client("ws://localhost:" + str(DEF_PORT))
 	assert(error == OK)
 	multiplayer.multiplayer_peer = peer
 	
