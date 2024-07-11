@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=3 uid="uid://dhx0eq2fgwsmq"]
+
+[ext_resource type="Material" uid="uid://bk3umf6d81sg3" path="res://game_logic/vertex.tres" id="1_ef8ui"]
+[ext_resource type="Script" path="res://game_logic/selection/selectable.gd" id="2_7toix"]
+[ext_resource type="Script" path="res://game_logic/vertex.gd" id="3_osavd"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_2asxk"]
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6qsmv"]
+
+[node name="dot" type="MeshInstance3D"]
+material_override = ExtResource("1_ef8ui")
+mesh = SubResource("SphereMesh_2asxk")
+script = ExtResource("3_osavd")
+
+[node name="Selectable" type="Area3D" parent="."]
+script = ExtResource("2_7toix")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Selectable"]
+shape = SubResource("SphereShape3D_6qsmv")

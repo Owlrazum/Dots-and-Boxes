@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0frrqnqcub0k"]
+
+[ext_resource type="Script" path="res://Scripts/Main Menu.gd" id="1_24oap"]
+[ext_resource type="Texture2D" uid="uid://328i2auenm3h" path="res://Photos/peakpx3.jpg" id="2_otisk"]
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_24oap")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 1280.0
+offset_bottom = 263.0
+theme_override_font_sizes/font_size = 81
+text = "Dots & Dashes"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Peakpx3" type="Sprite2D" parent="."]
+position = Vector2(573, 319)
+texture = ExtResource("2_otisk")
+
+[node name="PlayButton" type="Button" parent="."]
+offset_left = 490.0
+offset_top = 399.0
+offset_right = 778.0
+offset_bottom = 469.0
+theme_override_font_sizes/font_size = 40
+text = "Play
+"
+
+[node name="QuitButton" type="Button" parent="."]
+offset_left = 490.0
+offset_top = 514.0
+offset_right = 778.0
+offset_bottom = 584.0
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+
+[connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]

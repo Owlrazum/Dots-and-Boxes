@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl237efeelhyv"]
+
+[ext_resource type="Script" path="res://game_logic/edge.gd" id="1_7t03c"]
+[ext_resource type="Material" uid="uid://bk3umf6d81sg3" path="res://game_logic/vertex.tres" id="1_k54ql"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_mi2re"]
+size = Vector2(0.3, 1)
+center_offset = Vector3(0, 0, -0.5)
+orientation = 1
+
+[node name="Edge" type="MeshInstance3D"]
+material_override = ExtResource("1_k54ql")
+mesh = SubResource("QuadMesh_mi2re")
+script = ExtResource("1_7t03c")

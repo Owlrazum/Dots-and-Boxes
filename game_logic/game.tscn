@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4r7f5dag4l4q"]
+
+[ext_resource type="Script" path="res://game_logic/manager.gd" id="1_tgwwa"]
+[ext_resource type="Script" path="res://game_logic/selection/selection.gd" id="2_u4txn"]
+
+[node name="Game" type="Node" node_paths=PackedStringArray("vertices_parent", "edges_parent")]
+script = ExtResource("1_tgwwa")
+gap = 2.0
+vertex_size = 1.0
+vertices_parent = NodePath("Vertices")
+edges_parent = NodePath("Edges")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.184314, 1, 1)
+
+[node name="Vertices" type="Node" parent="."]
+
+[node name="Edges" type="Node" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+
+[node name="Selection" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -15)
+collide_with_areas = true
+script = ExtResource("2_u4txn")

@@ -1,0 +1,79 @@
+[gd_scene load_steps=5 format=3 uid="uid://h2ohli73x2v"]
+
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_w04fg"]
+[ext_resource type="PackedScene" uid="uid://xi2amsmhne6i" path="res://Scenes/mouse.tscn" id="3_0l7f5"]
+[ext_resource type="Script" path="res://Scenes/GridContainer.gd" id="3_j3qd5"]
+
+[sub_resource type="GDScript" id="GDScript_8wxiv"]
+script/source = "extends GridContainer
+
+var colored_boxes = 0;
+
+func _process(delta):
+	var i=0;
+	if colored_boxes >= (Global.table_size-1) * (Global.table_size-1):
+		Global.end_game = true;
+	else:
+		colored_boxes = 0;
+	for y in Global.table_size:
+		for x in Global.table_size:
+			get_child(i).grid_pos = Vector2(x,y);
+			if get_child(i).got_color:
+				colored_boxes += 1;
+			i += 1;
+		
+"
+
+[node name="Table" type="Node2D"]
+script = ExtResource("1_w04fg")
+
+[node name="Mouse" parent="." instance=ExtResource("3_0l7f5")]
+
+[node name="BoxesContainer" type="GridContainer" parent="."]
+z_index = -2
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 640.0
+offset_top = 360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 105
+theme_override_constants/v_separation = 105
+columns = 5
+script = SubResource("GDScript_8wxiv")
+
+[node name="DotsContainer" type="GridContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 640.0
+offset_top = 360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 40
+columns = 5
+script = ExtResource("3_j3qd5")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 2.0
+offset_top = 24.0
+offset_right = 1281.0
+offset_bottom = 71.0
+theme_override_font_sizes/font_size = 46
+text = "Selected Point: "
+horizontal_alignment = 1
+vertical_alignment = 1

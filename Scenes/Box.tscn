@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca0ipuc43ehfi"]
+
+[ext_resource type="Script" path="res://Scripts/Box.gd" id="1_qr3ot"]
+[ext_resource type="Texture2D" uid="uid://bqyds3bf8k8kg" path="res://Sprites/box.jpg" id="1_rmca7"]
+
+[node name="Box" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_qr3ot")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(51.34, 51.34)
+scale = Vector2(1.6, 1.6)
+texture = ExtResource("1_rmca7")

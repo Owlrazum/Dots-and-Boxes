@@ -1,0 +1,100 @@
+[gd_scene load_steps=6 format=3 uid="uid://be85hag7chwvv"]
+
+[ext_resource type="PackedScene" uid="uid://b3br37yopbhr0" path="res://Scenes/card.tscn" id="1_3ouxy"]
+[ext_resource type="Script" path="res://Scripts/sort.gd" id="1_bl00w"]
+
+[sub_resource type="Animation" id="Animation_mj3dk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_6w26d"]
+resource_name = "slide_up"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -720)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3ofyq"]
+_data = {
+"RESET": SubResource("Animation_mj3dk"),
+"slide_up": SubResource("Animation_6w26d")
+}
+
+[node name="Sort" type="Node2D"]
+script = ExtResource("1_bl00w")
+
+[node name="Cards" type="Node2D" parent="."]
+
+[node name="Card" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(159, 314)
+
+[node name="Card2" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(248, 314)
+
+[node name="Card3" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(338, 314)
+
+[node name="Card4" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(427, 314)
+
+[node name="Card5" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(515, 314)
+
+[node name="Card6" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(604, 314)
+
+[node name="Card7" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(694, 314)
+
+[node name="Card8" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(783, 314)
+
+[node name="Card9" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(872, 314)
+
+[node name="Card10" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(961, 314)
+
+[node name="Card11" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(1051, 314)
+
+[node name="Card12" parent="Cards" instance=ExtResource("1_3ouxy")]
+position = Vector2(1140, 314)
+
+[node name="SwapButton" type="Button" parent="."]
+offset_left = 529.0
+offset_top = 478.0
+offset_right = 737.0
+offset_bottom = 585.0
+theme_override_font_sizes/font_size = 72
+text = "SWAP"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3ofyq")
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.190762, 0.190762, 0.190762, 1)

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://crvg2pyaivf1g"]
+
+[ext_resource type="Script" path="res://source/utils/selection/selectable.gd" id="1_bcrlf"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lt2j0"]
+radius = 5.0
+
+[node name="Selectable" type="Area3D"]
+script = ExtResource("1_bcrlf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_lt2j0")

@@ -1,0 +1,101 @@
+[gd_scene load_steps=5 format=3 uid="uid://n4dmcqxutlit"]
+
+[ext_resource type="Script" path="res://game_logic/connect.gd" id="1_cmktx"]
+[ext_resource type="StyleBox" uid="uid://dag5bvc65gyu6" path="res://game_logic/blobor_all.tres" id="2_uiweq"]
+[ext_resource type="StyleBox" uid="uid://blwwb76djkno4" path="res://game_logic/flat_white_bordered.tres" id="4_03ve5"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_gok1o"]
+thickness = 5
+vertical = true
+
+[node name="Connect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cmktx")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_styles/panel = ExtResource("2_uiweq")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HFlowContainer" parent="Control"]
+layout_mode = 1
+offset_left = 81.0
+offset_top = 90.0
+offset_right = 607.0
+offset_bottom = 636.0
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 30
+
+[node name="Host" type="Button" parent="Control/HBox"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = ExtResource("4_03ve5")
+text = "Host"
+
+[node name="Client" type="Control" parent="Control/HBox"]
+custom_minimum_size = Vector2(500, 200)
+layout_mode = 2
+
+[node name="Client" type="Button" parent="Control/HBox/Client"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 1
+offset_right = 229.0
+offset_bottom = 143.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = ExtResource("4_03ve5")
+text = "Client
+"
+
+[node name="TextEdit" type="LineEdit" parent="Control/HBox/Client"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -50.0
+offset_right = 400.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+placeholder_text = "Type the address of the host"
+
+[node name="Start" type="Button" parent="Control/HBox"]
+visible = false
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = ExtResource("4_03ve5")
+text = "Start"
+
+[node name="VSeparator" type="VSeparator" parent="Control"]
+layout_mode = 1
+offset_left = 11.0
+offset_top = 51.0
+offset_right = 109.0
+offset_bottom = 655.0
+theme_override_styles/separator = SubResource("StyleBoxLine_gok1o")
+
+[connection signal="pressed" from="Control/HBox/Host" to="." method="on_Host_pressed"]
+[connection signal="pressed" from="Control/HBox/Client/Client" to="." method="on_Client_pressed"]
+[connection signal="pressed" from="Control/HBox/Start" to="." method="on_Start_pressed"]
