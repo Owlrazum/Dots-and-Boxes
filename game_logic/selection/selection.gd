@@ -17,6 +17,7 @@ func _unhandled_input(event):
 		var click = event as InputEventMouseButton
 		if click.button_index == 1 and click.pressed:
 			var selectable = get_collider() as Selectable
+			print(selectable)
 			if selectable:
 				selectable.selected.emit()
 

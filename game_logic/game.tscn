@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://c4r7f5dag4l4q"]
+[gd_scene load_steps=5 format=3 uid="uid://c4r7f5dag4l4q"]
 
 [ext_resource type="Script" path="res://game_logic/manager.gd" id="1_tgwwa"]
 [ext_resource type="Script" path="res://game_logic/selection/selection.gd" id="2_u4txn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v00if"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66rim"]
+bg_color = Color(1, 1, 1, 1)
 
 [node name="Game" type="Node" node_paths=PackedStringArray("selection", "vertices_parent", "edges_parent", "faces_parent")]
 script = ExtResource("1_tgwwa")
@@ -20,8 +26,129 @@ faces_parent = NodePath("Faces")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 10, 0)
+keep_aspect = 0
+size = 30.0
 
 [node name="Selection" type="RayCast3D" parent="Camera3D"]
 target_position = Vector3(0, 0, -15)
 collide_with_areas = true
 script = ExtResource("2_u4txn")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="YellowPlayer" type="ColorRect" parent="Control"]
+layout_mode = 1
+offset_right = 150.0
+offset_bottom = 50.0
+color = Color(1, 1, 0, 1)
+
+[node name="Who" type="Label" parent="Control/YellowPlayer"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "You"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Control/YellowPlayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+offset_right = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_v00if")
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VioletPlayer" type="ColorRect" parent="Control"]
+layout_mode = 1
+offset_top = 57.0
+offset_right = 150.0
+offset_bottom = 107.0
+color = Color(0.945098, 0.321569, 1, 1)
+
+[node name="Who" type="Label" parent="Control/VioletPlayer"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "You"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Control/VioletPlayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 150.0
+offset_right = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_v00if")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WhoseTurn" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -45.0
+offset_right = 350.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_66rim")
+text = "It is player %s turn"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOver" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -333.5
+offset_top = -44.0
+offset_right = 333.5
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxFlat_66rim")
+text = "YOU WIN!"
+horizontal_alignment = 1
+vertical_alignment = 1

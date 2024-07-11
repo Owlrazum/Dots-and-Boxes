@@ -9,8 +9,9 @@ height = 0.1
 rings = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6qsmv"]
+radius = 1.5
 
-[node name="dot" type="MeshInstance3D"]
+[node name="Vertex" type="MeshInstance3D"]
 material_override = ExtResource("1_ef8ui")
 mesh = SubResource("SphereMesh_2asxk")
 script = ExtResource("3_osavd")

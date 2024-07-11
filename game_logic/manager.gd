@@ -18,6 +18,14 @@ extends Node
 @export var edges_parent: Node
 @export var faces_parent: Node
 
+@onready var players = [$Control/YellowPlayer as ColorRect, $Control/VioletPlayer as ColorRect]
+@onready var score_labels = [$Control/YellowPlayer/Score as Label, $Control/VioletPlayer/Score as Label]
+@onready var whose_turn = $Control/WhoseTurn as Label
+@onready var game_over = $Control/GameOver as Label
+
+var scores = [0, 0]
+var whose_turn_msgs = ["It is yellow player turn", "It is violet player turn"]
+
 var player_turn # 0 or 1
 var made_face
 
@@ -25,8 +33,6 @@ var selected_vertex: Vertex
 var faces = [] # faces, each with number of edges 0..4
 var edges = [] # per vertex the array of 4 booleans denoting edge
 
-var p1_faces_amount = 0
-var p2_faces_amount = 0
 
 enum {
 	U, #up
@@ -38,9 +44,18 @@ enum {
 @rpc("reliable", "any_peer", "call_local")
 func make_turn(v1pos, v2pos, player):
 	make_edge(v1pos, v2pos, player)
+	if made_face:
+		if scores[0] + scores[1] == (dims.x - 1) * (dims.y - 1):
+			selection.can_select = false
+			game_over.visible = true
+			if (scores[0] > scores[1] and PlayerList.local_player_index == 1 or
+				scores[1] > scores[0] and PlayerList.local_player_index == 0):
+				game_over.text = "YOU LOST!"
+			return
 	if not made_face and PlayerList.player_amount > 1: 
 		player_turn = 0 if player_turn == 1 else 1
 		selection.can_select = PlayerList.local_player_index == player_turn
+		whose_turn.text = whose_turn_msgs[player_turn]
 	made_face = false
 
 func _ready():
@@ -74,6 +89,8 @@ func _ready():
 				faces.append(0)
 	
 	player_turn = 0
+	whose_turn.text = whose_turn_msgs[player_turn]
+	players[PlayerList.local_player_index].get_child(0).visible = true
 	made_face = false
 	selection.can_select = PlayerList.local_player_index == player_turn
 
@@ -86,6 +103,7 @@ func on_vertex_pressed(vertex):
 		default_adjacent(selected_vertex)
 		selected_vertex = null
 	else:
+		print("select")
 		vertex.select()
 		selected_vertex = vertex
 		highlight_adjacent(vertex)
@@ -169,7 +187,6 @@ func make_edge(v1pos, v2pos, player):
 		if faces[face_index.y] == 4:
 			make_face(face_index.y, player)
 	
-	var p = v1.position - v2.position
 	var edge = edge_scene.instantiate() as Edge
 	edges_parent.add_child(edge)
 	edge.position = v2.position
@@ -180,8 +197,10 @@ func make_face(face_index, player):
 	var face = face_scene.instantiate() as Face
 	faces_parent.add_child(face)
 	var fi = xtoxy(face_index, dims.x - 1)
-	face.position = vertices_parent.get_child(xytox(fi.x, fi.y, dims.x)).position + Vector3.UP * 0.5
+	face.position = vertices_parent.get_child(xytox(fi.x, fi.y, dims.x)).position + Vector3.UP * 0.2
 	face.material_override = face.material_override.duplicate()
 	if player == 0: face.p1()
 	else: face.p2()
+	scores[player] += 1
+	score_labels[player].text = str(scores[player])
 	made_face = true

@@ -21,6 +21,11 @@ Global="*res://Scripts/Global.gd"
 PlayerList="*res://game_logic/player_list.gd"
 SceneSwitcher="*res://game_logic/scene_switcher.gd"
 
+[display]
+
+window/size/viewport_width=648
+window/size/viewport_height=1152
+
 [rendering]
 
 renderer/rendering_method="mobile"

@@ -28,7 +28,7 @@ var Orange_Score = 0;
 var line_index = 0;
 var current = 0;
 
-func _process(delta):
+func _process(_delta):
 	Red_Score = Scores[0];
 	Blue_Score = Scores[1];
 	Yellow_Score = Scores[2];

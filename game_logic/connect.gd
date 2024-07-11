@@ -22,7 +22,7 @@ func _ready():
 	multiplayer.server_disconnected.connect(close_network)
 	multiplayer.connection_failed.connect(close_network)
 	
-	client_connect_ip.text = '192.168.'
+	client_connect_ip.text = '192.168.0.107'
 
 
 func on_connected_to_server():
