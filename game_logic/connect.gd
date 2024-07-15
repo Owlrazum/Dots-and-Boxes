@@ -6,12 +6,16 @@ const PROTO_NAME = "ludus"
 var peer = WebSocketMultiplayerPeer.new()
 var hosted: bool
 
-@onready var host = $Control/HBox/Host
-@onready var client = $Control/HBox/Client
-@onready var start = $Control/HBox/Start
+var sort_scene = preload("res://game_logic/bubble_sort.tscn")
 
-@onready var host_ip = $Control/HBox/Label as Label
-@onready var client_connect_ip = $Control/HBox/Client/LineEdit as LineEdit
+@onready var multiplayer_menu = $Multiplayer as Control 
+
+@onready var host = $Multiplayer/HBox/Host
+@onready var client = $Multiplayer/HBox/Client
+@onready var start = $Multiplayer/HBox/Start
+
+@onready var host_ip = $Multiplayer/HBox/Label as Label
+@onready var client_connect_ip = $Multiplayer/HBox/Client/LineEdit as LineEdit
 
 func _init():
 	peer.supported_protocols = [PROTO_NAME]
@@ -74,6 +78,15 @@ func on_Client_pressed():
 func on_Start_pressed():
 	goto_game_scene.rpc()
 
+func on_Sort_pressed():
+	multiplayer_menu.visible = false
+	var bs = sort_scene.instantiate() as BubbleSort
+	bs.completed.connect(on_sort_completed)
+	add_child(bs)
+
+func on_sort_completed(bs):
+	bs.queue_free()
+	multiplayer_menu.visible = true
 
 @rpc("reliable", "call_local")
 func goto_game_scene():
