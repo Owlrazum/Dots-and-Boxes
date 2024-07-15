@@ -58,6 +58,33 @@ func make_turn(v1pos, v2pos, player):
 		whose_turn.text = whose_turn_msgs[player_turn]
 	made_face = false
 
+@rpc("reliable", "any_peer", "call_local")
+func restart():
+	for e in edges:
+		for b in e:
+			b = 0
+	for e in edges_parent.get_children():
+		e.queue_free()
+	
+	for f in faces:
+		f = 0
+	for f in faces_parent.get_children():
+		f.queue_free()
+	
+	selected_vertex = null
+	made_face = false
+	player_turn = 0
+	scores = [0, 0]
+	score_labels[0].text = str(0)
+	score_labels[1].text = str(0)
+	whose_turn.text = whose_turn_msgs[player_turn]
+	selection.can_select = PlayerList.local_player_index == player_turn
+	game_over.visible = false
+
+@rpc("reliable", "any_peer", "call_local")
+func quit():
+	SceneSwitcher.call_deferred("load_menu_deferred")
+
 func _ready():
 	var delta = (vertex_size + gap) * Vector3(1, 0, 1)
 	var start_delta = -delta;
@@ -204,3 +231,10 @@ func make_face(face_index, player):
 	scores[player] += 1
 	score_labels[player].text = str(scores[player])
 	made_face = true
+
+
+func on_Restart_pressed():
+	restart.rpc()
+
+func on_Quit_pressed():
+	quit.rpc()

@@ -55,7 +55,7 @@ func swap(e1, e2):
 	var c1 = element_cards[e1]
 	var c2 = element_cards[e2]
 	
-	var current_tween = get_tree().create_tween()
+	current_tween = get_tree().create_tween()
 	current_tween.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD).set_parallel(true)
 	current_tween.tween_callback(func(): 
 		c1.color = Color.ORANGE_RED

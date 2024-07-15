@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c4r7f5dag4l4q"]
+[gd_scene load_steps=6 format=3 uid="uid://c4r7f5dag4l4q"]
 
 [ext_resource type="Script" path="res://game_logic/manager.gd" id="1_tgwwa"]
 [ext_resource type="Script" path="res://game_logic/selection/selection.gd" id="2_u4txn"]
@@ -9,9 +9,13 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66rim"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cal6p"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="Game" type="Node" node_paths=PackedStringArray("selection", "vertices_parent", "edges_parent", "faces_parent")]
 script = ExtResource("1_tgwwa")
 selection = NodePath("Camera3D/Selection")
+dims = Vector2i(2, 2)
 gap = 2.0
 vertex_size = 1.0
 vertices_parent = NodePath("Vertices")
@@ -152,3 +156,29 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_66rim")
 text = "YOU WIN!"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Restart" type="Button" parent="Control/GameOver"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 104.0
+offset_right = 264.0
+offset_bottom = 232.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_cal6p")
+text = "Restart"
+
+[node name="Quit" type="Button" parent="Control/GameOver"]
+layout_mode = 0
+offset_left = 408.0
+offset_top = 104.0
+offset_right = 664.0
+offset_bottom = 232.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_cal6p")
+text = "Quit
+"
+
+[connection signal="pressed" from="Control/GameOver/Restart" to="." method="on_Restart_pressed"]
+[connection signal="pressed" from="Control/GameOver/Quit" to="." method="on_Quit_pressed"]
